@@ -1,0 +1,217 @@
+
+<script type="text/javasript" src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+<script src="./app.js"></script><br>
+
+<div class="row">
+
+
+  <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="x_panel tile fixed_height_320">
+      <div class="x_title result">
+        <h2>Wallet Details</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          
+          </li> 
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+
+         <label for="account"><h4>Account Address:</h4><input type="text" class="form-control" id="address" readonly/></label> &nbsp;&nbsp;
+          <label for="account"><h4>Ether Balance:</h4><input type="text" class="form-control" id="balance" readonly/></label> &nbsp;&nbsp;
+          <label for="account1"><h4>Token Balance:</h4><input type="text" class="form-control" id="usertoken" readonly/></label>
+        
+        <div class="widget_summary">
+         
+        </div>
+
+        <div class="widget_summary">
+        
+        </div>
+        <div class="widget_summary">
+         
+        </div>
+        <div class="widget_summary">
+         
+        </div>
+        <div class="widget_summary">
+        
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="x_panel tile fixed_height_320 overflow_hidden">
+      <div class="x_title">
+        <h2>Action on Tokens</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+        
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content" style="text-align: center">
+        <h2><b>1 HLT token <br>=<br>0.0001 ether</b></h2>
+                                <br>
+          <button type="button" class="btn btn-round btn-primary"  data-toggle="modal" data-target="#purchase">Purchase Tokens</button>&nbsp;
+                
+                 <!--purchase popup--> 
+                    <div class="modal fade" id="purchase" role="dialog">
+                        <div class="modal-dialog modal-sm">
+                          <div class="modal-content">
+                            
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              <h4 class="modal-title">Purchase</h4>         
+                            </div>
+                            
+                            <div class="modal-body">
+                                <input type="text" placeholder="Enter Number of Tokens " id='num'>
+                            </div>
+                          
+                            <div class="modal-footer">
+                              <button type="button"class="butn" data-dismiss="modal" aria-hidden="true" onclick="App.buy_token();" style="background:rgb(103, 178, 212)" >Purchase</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+           <br><br>
+
+          <button type="button" class="btn btn-round btn-success"  data-toggle="modal" data-target="#selltoken">Exchange Tokens</button>
+
+                  <!--sell token popup--> 
+           <div class="modal fade" id="selltoken" role="dialog">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Sell Token</h4>         
+                  </div>
+                  
+                  <div class="modal-body">
+                      <input type="text" placeholder="Enter Number of Tokens" id='selltk'>
+                  </div>
+                 
+                  <div class="modal-footer">
+                    <button type="button" class="butn" data-dismiss="modal" aria-hidden="true" onclick="App.exchange_token();" style="background:rgb(103, 178, 212)" >Sell Token</button>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+
+       
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="x_panel tile fixed_height_320">
+      <div class="x_title">
+        <h2>Overview of Betting</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+         
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content" style="text-align: center">
+        <h2>Total Bets</h2><p style="color:blue"><b>85</b></p>
+        <h2>No of wins </h2><p style="color:green"><b>0</b></p>
+        <h2>No of Loss</h2><p style="color:red"><b>80</b></p>
+        <h2>Pending</h2><p style="color:brown"><b>5</b></p>
+      
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="row">
+ 
+  <div class="col-md-12 col-sm-12 col-xs-12">
+
+
+
+    <div class="row" style="text-align: center">
+
+      
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Bettings</h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+             
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content"  style="height:500px;overflow-y :scroll">
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+           hockey<br>
+
+            
+          </div>
+        </div> 
+      </div>
+
+    </div>
+    
+    <div class="row"  style="text-align:center">
+
+      
+      
+        <div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Bettings</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  </li>
+                  
+                  </li>
+                </ul>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content" style="height:500px;overflow-y :scroll">
+                <table>
+                  <tbody id="totalbroker_list"  style="text-align: center">
+
+                  </tbody>
+                </table>
+        
+                
+            </div> 
+          </div>
+  </div>
+</div>
+
+      
