@@ -434,74 +434,61 @@ var binaryOption = new this.web3.eth.Contract(abi_json,contract_Address,{
 	gasLimit: 3000000,
 });
 var prikey;
-function cricket()
-{
-	if(prikey==undefined)
-	{
-		swal("Enter privateKey");
-	}else{
-		$("#target").load('cricket');  
-	}		
+
+function change_ownership(){
+	$('#target').load('change_ownership');  
+	// balanceOf_func();
+	// getUserBalance();
 }
 
-function profile(){
-	if(prikey == undefined){
-		swal("Enter PrivateKey")
-	}
-	else{
-		$("#target").load('profile');
-		// myBetTable();
-	}
+function create_option_page(){
+	console.log("cretingoption")
+	$('#target').load('create_option');  
 }
 
-function overall_bets(){
-	if(prikey == undefined){
-		swal("Enter PrivateKey")
-	}
-	else{
-		$("#target").load('overallBets');
-	}
+function set_result_page(){
+	$('#target').load('set_result_page'); 
+	result_table();
 }
 
-function my_bets(){
-	if(prikey == undefined){
-		swal("Enter PrivateKey")
-	}
-	else{
-		$("#target").load('myBets');
-	}
-}
-
-function deposit_withdraw()
-{
-	$("#target").load('football');
+function deposit_withdraw(){
+	$('#target').load('deposit_withdraw');  
 	balanceOf_func();
 	getUserBalance();
 }
 
-function hockey()
+function overall_bets(){
+	$('#target').load('overall_bets');  
+	table_options()
+}
+
+function my_bets(){
+	$('#target').load('my_bets');  
+	better_table();
+}
+
+function cricket()
 {
-    $("#target").load('hockey');  
+	
+	$("#target").load('cricket');  
+	table_options()
+	
 }
 
-function brokerpage(){
-	if(prikey==undefined)
-	{
-		swal("Enter privateKey");
-	}else{
-		$("#target").load('brokerpage')
-	}	
-		
+function football()
+{
+    $("#target").load('football');  
 }
 
-function myBetTable(){
-	// let meta = this;
-	// $("#myBetTable").html('');
-	// $("#mypara").innerText = "hi hello";
-	// $("#myBetTable").append('<tr><td>'+hi+'</td><td>'+hi+'</td><td>'+hi+'</td><td>'+hi+'</td><td>'+hi+'</td><td>'+hi+'</td></tr>');
-		// '<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"Pending"+'</td><td>'+web3.utils.fromWei(option_records[4][0])+'</td><td>'+web3.utils.fromWei(option_records[4][1])+'</td></tr>')
+function profile()
+{
+    $("#target").load('profile');  
 }
 
+function brokerpage(){	
+	$("#target").load('brokerpage')
+	
+}
 
 async function admin_address(){
 	return new Promise((resolve,reject)=>{
@@ -538,16 +525,6 @@ function pkey(){
 
 }
 
-
-async function getAccounts(){
-	return new Promise((resolve,reject)=>{
-	let obj = web3.eth.accounts.privateKeyToAccount('0x'+prikey);
-    var address=obj['address'];	
-	$("#address").val(address)
-	
-	resolve(obj['address'])
-	})
- }
 async function getUserBalance() {
     let instance = this;
     return new Promise((resolve, reject) => {
@@ -566,13 +543,25 @@ async function getUserBalance() {
     })
 }
 
- async function balanceOf_func(){
-	 var meta= this;
+async function getAccounts(){
+	let meta = this;
+	return new Promise((resolve,reject)=>{
+	let obj = meta.web3.eth.accounts.privateKeyToAccount('0x'+meta.prikey);
+    var address=obj['address'];	
+	$("#address").val(address)
+	
+	resolve(obj['address'])
+	})
+}
+
+async function balanceOf_func(){
+	var meta= this;
 	return new Promise((resolve,reject)=>{
 		meta.getAccounts().then(address=>{
-			binaryOption.methods.balanceOf().call({from:address},function(err,balance) {	
+			meta.binaryOption.methods.balanceOf().call({from:address},function(err,balance) {
 				var bal = web3.utils.fromWei(balance,'ether');
 				document.getElementById("address_balance").innerText=parseFloat(bal).toFixed(4)+" ether";
+				$("#address_balance").val(web3.utils.fromWei(balance));	
 				resolve (balance);
 			})				
 		})
@@ -589,14 +578,20 @@ async function optionDetails_function(ids){
 }
 
 async function create_option(){
-	console.log("in option");
+	console.log("in optio          n");
 	
 	var _minbet = document.getElementById("min_bet").value;
 	var _maxbet = document.getElementById("max_bet").value;
+	var _start_time = document.getElementById("start_time").value;
+	var _end_time = document.getElementById("end_time").value;
 	var minbet=web3.utils.toWei(_minbet,'ether')
 	var maxbet=web3.utils.toWei(_maxbet,'ether')
-	console.log(minbet,maxbet);	
-	console.log(this.prikey);	
+
+	var startTime = parseInt(Math.round(new Date(_start_time).getTime() / 1000))
+	var endTime = parseInt(Math.round(new Date(_end_time).getTime() / 1000))
+	
+	console.log(tim)
+	console.log(_end_time)
 	var meta=this;
 	if(meta.prikey.length==64){
 if (($('#min_bet').val() != '') && ($('#max_bet').val() != '')){
@@ -609,7 +604,7 @@ var  nonce = result.toString(16);
 
 var privateKey = ethereumjs.Buffer.Buffer(prikey,'hex'); 
 
-var contractFunction =binaryOption.methods.createOption(minbet,maxbet);  
+var contractFunction =binaryOption.methods.createOption(minbet,maxbet,startTime,endTime);  
 var functionAbi = contractFunction.encodeABI()
 var  txParams  = {
  nonce: '0x' +nonce,
@@ -629,18 +624,18 @@ hash_function(receipt['transactionHash']).then(res=>{
 	if(res == 0){
 		$('#min_bet').val('');								
 		$('#max_bet').val('');
-		swal("rejected")
+alert("rejected")
 	}
 	else if(res == 1) {
 		$('#min_bet').val('');								
 		$('#max_bet').val('');
 		meta.table_options();
-		swal("success")
+		alert("success")
 	}
 	else if(res == 2) {
 		$('#min_bet').val('');								
 		$('#max_bet').val('');
-		swal("Transaction Faild")
+		alert("Transaction Faild")
 	}
 });
 
@@ -657,19 +652,18 @@ console.log(error)
  {
 		$('#min_bet').val('');								
 		$('#max_bet').val('');	
-		swal("Enter all Details Correctly");
+		alert("Enter all Details Correctly");
 		
 	}
 }
 else{
 	$('#min_bet').val('');								
 		$('#max_bet').val('');	
-		swal("Enter privatekey");
+		alert("Enter privatekey");
 }
 }
 
 //betting
-
 async function optionIds(){
 	return new Promise((resolve,reject)=>{ 
 	binaryOption.methods.optionList().call(function(err,result) {
@@ -740,7 +734,7 @@ function bet(){
 				$('#amount').val('');								
 				document.getElementById("g1").checked = null;
 				 document.getElementById("g2").checked = null;
-				 swal("rejected")
+		alert("rejected")
 			}
 			else if(res == 1) {
 				$('#optionid').val('');	
@@ -749,14 +743,14 @@ function bet(){
 				 document.getElementById("g2").checked = null;
 				 meta.table_options();
 				meta.better_table();
-				swal("success")
+				alert("success")
 			}
 			else if(res == 2) {
 				$('#optionid').val('');	
 				$('#amount').val('');								
 				document.getElementById("g1").checked = null;
 				 document.getElementById("g2").checked = null;
-				 swal("Transaction Faild")
+				alert("Transaction Faild")
 			}
 		});
 	 })
@@ -774,7 +768,7 @@ function bet(){
 				$('#amount').val('');								
 				document.getElementById("g1").checked = null;
 				 document.getElementById("g2").checked = null;
-				 swal("Enter all Details Correctly");
+				alert("Enter all Details Correctly");
 				
 			}	
 		}
@@ -783,10 +777,9 @@ function bet(){
 			$('#amount').val('');								
 			document.getElementById("g1").checked = null;
 			 document.getElementById("g2").checked = null;
-			 swal("Enter PrivateKey");
+			alert("Enter PrivateKey");
 		}	
 }
-
 
 function change_bet(){
 	var meta=this;
@@ -839,19 +832,19 @@ function change_bet(){
 				$('#change_optionid').val('');							
 				document.getElementById("g1").checked = null;
 				 document.getElementById("g2").checked = null;
-				 swal("rejected")
+		alert("rejected")
 			}
 			else if(res == 1) {
 				$('#change_optionid').val('');							
 				document.getElementById("g1").checked = null;
 				 document.getElementById("g2").checked = null;
-				 swal("success")
+				alert("success")
 			}
 			else if(res == 2) {
 				$('#change_optionid').val('');							
 				document.getElementById("g1").checked = null;
 				 document.getElementById("g2").checked = null;
-				 swal("Transaction Faild")
+				alert("Transaction Faild")
 			}
 		});
 	 })
@@ -868,7 +861,7 @@ function change_bet(){
 			$('#change_optionid').val('');							
 				document.getElementById("g1").checked = null;
 				 document.getElementById("g2").checked = null;
-				 swal("Enter all Details Correctly");
+				alert("Enter all Details Correctly");
 				
 			}
 	}
@@ -876,7 +869,7 @@ function change_bet(){
 		$('#change_optionid').val('');							
 		document.getElementById("g1").checked = null;
 		 document.getElementById("g2").checked = null;
-		 swal("Enter PrivateKey");
+		alert("Enter PrivateKey");
 	}		
 }
 
@@ -1004,19 +997,19 @@ function decrease_bet(){
 			if(res == 0){
 				$('#increase_optionid').val('');	
 				$('#increase_amount').val('');	
-				swal("rejected")
+		alert("rejected")
 			}
 			else if(res == 1) {
 				$('#increase_optionid').val('');	
 				$('#increase_amount').val('');	
 				meta.table_options();
 				meta.better_table();
-				swal("success")
+				alert("success")
 			}
 			else if(res == 2) {
 				$('#increase_optionid').val('');	
 				$('#increase_amount').val('');	
-				swal("Transaction Faild")
+				alert("Transaction Faild")
 			}
 		});
 	 })
@@ -1032,14 +1025,14 @@ function decrease_bet(){
 		 {
 			$('#increase_optionid').val('');	
 				$('#decrease_amount').val('');								
-				swal("Enter all Details Correctly");
+				alert("Enter all Details Correctly");
 				
 			}	
 		}
 		else{
 			$('#increase_optionid').val('');	
 			$('#decrease_amount').val('');								
-			swal("Enter Privatekey");
+			alert("Enter Privatekey");
 		}	
 }
 
@@ -1081,17 +1074,17 @@ function exit_bet(){
 		hash_function(receipt['transactionHash']).then(res=>{
 			if(res == 0){
 				$('#exit_optionid').val('');
-				swal("rejected")
+		alert("rejected")
 			}
 			else if(res == 1) {
 				$('#exit_optionid').val('');
 				meta.table_options();
 				meta.better_table();
-				swal("success")
+				alert("success")
 			}
 			else if(res == 2) {
 				$('#exit_optionid').val('');
-				swal("Transaction Faild")
+				alert("Transaction Faild")
 			}
 		});
 	 })
@@ -1106,19 +1099,19 @@ function exit_bet(){
 		 else
 		 {
 			$('#exit_optionid').val('');									
-			swal("Enter all Details Correctly");
+				alert("Enter all Details Correctly");
 				
 			}	
 		}
 		else{
 			$('#exit_optionid').val('');									
-			swal("Enter Privatekey");
+				alert("Enter Privatekey");
 		}	
 }
 
 function set_Result(){
-	var meta= this;
-	var opid = document.getElementById("result_optionid").value;
+	var meta= this; 
+	var opid = document.getElementById("resultbet_id").value;
 	var gm;
 		if ($('#g1').is(':checked')) {
 			gm = 1;
@@ -1126,10 +1119,13 @@ function set_Result(){
 		else if ($('#g2').is(':checked')) {
 			gm = 2;
 		}
-		console.log("id",opid,"gm",gm);
+		else if ($('#g3').is(':checked')) {
+			gm = 3;
+		}
+		console.log("id"+opid);
 		
 	if(prikey.length==64){
-		if (($('#result_optionid').val() != '') && ($('#result').val() != '')&& (gm == 1 || gm==2)){
+		if (gm == 1 || gm==2 || gm==3){
 			meta.getAccounts().then(current_address => { 
 		var senderAddress = current_address;
 		console.log(senderAddress);
@@ -1310,15 +1306,15 @@ function claim_function(){
 		hash_function(receipt['transactionHash']).then(res=>{
 			if(res == 0){
 				$('#claim_optionid').val('');	
-				swal("rejected")
+		alert("rejected")
 			}
 			else if(res == 1) {
 				$('#claim_optionid').val('');	
-				swal("success")
+				alert("success")
 			}
 			else if(res == 2) {
 				$('#claim_optionid').val('');	
-				swal("Transaction Faild")
+				alert("Transaction Faild")
 			}
 		});
 	 })
@@ -1334,18 +1330,17 @@ function claim_function(){
 		 else
 		 {
 			$('#claim_optionid').val('');									
-			swal("Enter all Details Correctly");
+				alert("Enter all Details Correctly");
 				
 			}	
 		}
 		else{
 			$('#claim_optionid').val('');									
-			swal("Enter Privatekey");
+				alert("Enter Privatekey");
 		}	
 }
 
 //hash function
-
 async function hash_function(hash) {
 	var meta=this;
 	return new Promise((resolve,reject)=>{
@@ -1379,7 +1374,6 @@ async function hash_function(hash) {
 }
 
 //Accounts contract
-
 function deposite_function(){
 	var meta=this;
 	var amount = document.getElementById("dep_amount").value;
@@ -1413,16 +1407,16 @@ function deposite_function(){
 		hash_function(receipt['transactionHash']).then(res=>{
 			if(res == 0){
 				$('#dep_amount').val('');		
-				swal("rejected")
+		alert("rejected")
 			}
 			else if(res == 1) {
 				$('#dep_amount').val('');
 				meta.balanceOf_func();		
-				swal("success")
+				alert("success")
 			}
 			else if(res == 2) {
 				$('#dep_amount').val('');		
-				swal("Transaction Faild")
+				alert("Transaction Faild")
 			}
 		});
 	 })
@@ -1436,60 +1430,57 @@ function deposite_function(){
 		}
 		else{		
 			$('#dep_amount').val('');									
-			swal("Enter privatekey");
+				alert("Enter privatekey");
 		}	
 }
 
 function withdraw_function(){
 	var meta=this;
 	var amount = document.getElementById("withdraw_amount").value;
-	console.log("amt"+typeof(amount))
-	var amt= web3.utils.toWei(amount,'ether')
-	console.log("amt"+amt)
+	var amt= web3.utils.toWei(amount.toString(),'ether')
 	if(prikey.length==64){
 			meta.getAccounts().then(current_address => {  
 		var senderAddress = current_address;
 		console.log(senderAddress);
 		try
 		{
-		web3.eth.getTransactionCount(senderAddress,function(err,result){
+			meta.web3.eth.getTransactionCount(senderAddress,function(err,result){
 			
 		console.log(result);
 		
 		var  nonce = result.toString(16);
 
-		var privateKey = ethereumjs.Buffer.Buffer(prikey,'hex'); 
+		var privateKey = ethereumjs.Buffer.Buffer(meta.prikey,'hex'); 
 	 
-		var contractFunction =binaryOption.methods.withdraw(amt);  
+		var contractFunction =meta.binaryOption.methods.withdraw(amt);  
 		var functionAbi = contractFunction.encodeABI()
 		var  txParams  = {
 		 nonce: '0x' +nonce,
 		 gasPrice:  '0x4A817C800',
 		 gasLimit: 4000000,
 		 from :senderAddress,
-		 to: contract_Address,
+		 to: meta.contract_Address,
 		 value: '0x00',
 		 data: functionAbi
 	 }      
 	 var tx = new ethereumjs.Tx(txParams);
 	 tx.sign(privateKey);
 	 const serializedTx = tx.serialize();
-	 web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex')).on('receipt', receipt =>{
+	 meta.web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex')).on('receipt', receipt =>{
 		console.log(receipt);
 		console.log(receipt['transactionHash']);
-		hash_function(receipt['transactionHash']).then(res=>{
+		meta.hash_function(receipt['transactionHash']).then(res=>{
+			document.getElementById("withdraw_amount").value='';
 			if(res == 0){
-				$('#dep_amount').val('');		
-				swal("rejected")
+		alert("rejected")
 			}
 			else if(res == 1) {
-				$('#dep_amount').val('');	
 				meta.balanceOf_func();	
-				swal("success")
+				meta.getUserBalance();
+				alert("success")
 			}
 			else if(res == 2) {
-				$('#dep_amount').val('');		
-				swal("Transaction Faild")
+				alert("Transaction Faild")
 			}
 		});
 	 })
@@ -1503,12 +1494,11 @@ function withdraw_function(){
 		}
 		else{		
 			$('#dep_amount').val('');									
-			swal("Enter privatekey");
+				alert("Enter privatekey");
 		}	
 }
 
 //ownable contract
-
 function transferOwnership_function(){
 	var meta=this;
 	var newowner = document.getElementById("new_owner_address").value;
@@ -1540,24 +1530,25 @@ function transferOwnership_function(){
 	 var tx = new ethereumjs.Tx(txParams);
 	 tx.sign(privateKey);
 	 const serializedTx = tx.serialize();
-	 web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex')).on('receipt', receipt =>{
-		console.log(receipt);
-		console.log(receipt['transactionHash']);
-		hash_function(receipt['transactionHash']).then(res=>{
-			if(res == 0){
-				$('#new_owner_address').val('');		
-				swal("rejected")
-			}
-			else if(res == 1) {
-				$('#new_owner_address').val('');		
-				swal("success")
-			}
-			else if(res == 2) {
-				$('#new_owner_address').val('');		
-				swal("Transaction Faild")
-			}
-		});
-	 })
+	 console.log("success")
+	//  web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex')).on('receipt', receipt =>{
+	// 	console.log(receipt);
+	// 	console.log(receipt['transactionHash']);
+	// 	hash_function(receipt['transactionHash']).then(res=>{
+	// 		if(res == 0){
+	// 			$('#new_owner_address').val('');		
+	// 	alert("rejected")
+	// 		}
+	// 		else if(res == 1) {
+	// 			$('#new_owner_address').val('');		
+	// 			alert("success")
+	// 		}
+	// 		else if(res == 2) {
+	// 			$('#new_owner_address').val('');		
+	// 			alert("Transaction Faild")
+	// 		}
+	// 	});
+	//  })
 	})
  }
  catch
@@ -1568,9 +1559,47 @@ function transferOwnership_function(){
 		}
 		else{		
 			$('#new_owner_address').val('');									
-			swal("Enter privatekey");
+				alert("Enter privatekey");
 		}	
 }
+
+(document).ready(function(){
+
+	// $("select").click(function(){
+	// $("option").click(function(){
+
+		
+	// 	if($("#one").val() == "1")
+	// 	$("#secondname").show();
+	// 	$("#firstname").show();
+	// 	alert("1");
+
+	// 		if($("#two").val() == 2)
+	// 		$("#secondname").show();
+	// 		$("#firstname").show();
+	// 		alert("2");
+
+
+	// 			if($("#three").val() == 3)
+	// 			$("#secondname").show();
+	// 			alert("3");
+	// })
+	// $("select").click(function(){
+	// 	// $("option").click(function(){
+
+			
+	// 		if($("#one").val() == 1)
+	// 		$("#secondname").show();
+	// 		$("#firstname").show();
+	// 		alert("1");
+	// 	})
+		
+	
+
+	
+	// })
+
+})
 
 //tables
 function table_options(){
@@ -1581,7 +1610,8 @@ function table_options(){
 		for (let i=1;i<=ids.length;i++){			
 	meta.optionDetails_function(i).then(option_records=>{
 		if(option_records[3]==0 && option_records[2]==0){
-			$("#body_option").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"Pending"+'</td><td>'+web3.utils.fromWei(option_records[4][0])+'</td><td>'+web3.utils.fromWei(option_records[4][1])+'</td></tr>')
+			// var j=i;
+			$("#body_option").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"Pending"+'</td><td>'+web3.utils.fromWei(option_records[4][0])+'</td><td>'+web3.utils.fromWei(option_records[4][1])+'</td><td><button data-toggle="modal" class="btn btn-default dropdown-toggle" data-target="#myModal" type="button" onclick="setBetId('+i+')" aria-expanded="false"> Bet Details <span class="caret"></span> </td></button></tr>')
 		}
 		else if(option_records[3]==1){
 			if(option_records[2]==1){
@@ -1597,25 +1627,54 @@ function table_options(){
 });
 }
 
+function result_table(){
+	$("#result_body").html('');
+	var meta =this;
+	meta.getAccounts().then(address=>{		
+	meta.optionIds().then(ids=>{		 		
+		for (let i=1;i<=ids.length;i++){			
+	meta.optionDetails_function(i).then(option_records=>{
+		if(option_records[3]==0 && option_records[2]==0){
+			// var j=i;
+			$("#result_body").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"Pending"+'</td><td>'+web3.utils.fromWei(option_records[4][0])+'</td><td>'+web3.utils.fromWei(option_records[4][1])+'</td><td><button data-toggle="modal" class="btn btn-default dropdown-toggle" data-target="#myModal" type="button" onclick="setResultBetId('+i+')" aria-expanded="false"> Bet Details <span class="caret"></span> </td></button></tr>')
+		}
+		else if(option_records[3]==1){
+			if(option_records[2]==1){
+				$("#result_body").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"LOW"+'</td><td>'+option_records[4][0]+'</td><td>'+option_records[4][1]+'</td></tr>')
+			}
+			else if(option_records[2]==2){
+				$("#result_body").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"HIGH"+'</td><td>'+option_records[4][0]+'</td><td>'+option_records[4][1]+'</td></tr>')
+			}
+		}
+	})			
+		}
+	})
+});
+}
+
+function setResultBetId(betId){
+	document.getElementById('resultbet_id').value =betId;
+}
+function setBetId(betId){
+	document.getElementById('myModalLabel').innerText ="Bet ID: "+betId;
+}
 function better_table(){
 	$("#body_better").html('');
 	var meta =this;
 	meta.getAccounts().then(address=>{
-	meta.optionIds().then(ids=>{
-		for (let i=1;i<=ids.length;i++){
-	meta.bet_Details(i,address).then(betdetails=>{
-console.log(i,betdetails,address);``
-
-if(betdetails[1]!=0){
-if(betdetails[1]==1){
-	$("#body_better").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(betdetails[0],'ether')+'</td><td>'+"LOW"+'</td></tr>')
-}
-else if(betdetails[1]==2){
-	$("#body_better").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(betdetails[0],'ether')+'</td><td>'+"HIGH"+'</td></tr>')
-}
-}
-	})
-}
-})
+		meta.optionIds().then(ids=>{
+			for (let i=1;i<=ids.length;i++){
+				meta.bet_Details(i,address).then(betdetails=>{
+					if(betdetails[1]!=0){
+						if(betdetails[1]==1){
+							$("#body_better").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(betdetails[0],'ether')+'</td><td>'+"LOW"+'</td></tr>')
+						}
+						else if(betdetails[1]==2){
+							$("#body_better").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(betdetails[0],'ether')+'</td><td>'+"HIGH"+'</td></tr>')
+						}
+					}
+				})
+			}
+		})
 	})
 }

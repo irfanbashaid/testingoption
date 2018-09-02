@@ -1,3 +1,24 @@
+#mymodal{
+  max-height: 500vh;
+  max-width: 500vh;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+.count green,count red,count{
+  font-size:10px;
+}
+.title_right{
+  margin:30px;
+}
+
+#address_acc_balance{
+  font-size: 20px;
+}
+
+#address_balance{
+  font-size: 20px;
+}
+
 input[type=text]{
     /* margin-top: 10px; */
     margin-right: 20px;
@@ -6,14 +27,8 @@ input[type=text]{
      margin-top: 20px;
 }
 
-#address_acc_balance{
-  font-size: 30px;
-}
 
-#address_balance{
-  font-size: 30px;
-}
-
+   
 .navbar-default  {
     color: #FFFFFF;
     background-color: blue;
@@ -29,10 +44,12 @@ input[type=text]{
 }
 input[type=text], input[type=password] {
     width: 100%;
-    padding: 2s5px;
+    padding: 10px;
     margin: 5px 0 22px 0;
     display: inline-block;
-    border: none;
+    /* border: none; */
+    border-radius: 25px;
+    border: 1px solid #fff;
     background: #f1f1f1;
 }
 table{
@@ -60,10 +77,10 @@ div#description {
         line-height: 24px;
     }
     button {
-  background: rgb(18, 149, 229);
+  /* background: rgb(85, 98, 112); */
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
   color: white;
-  padding: 10px 22px;
+  padding: 0px 22px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -134,7 +151,7 @@ input{
     border: none;
     outline: none;
     padding: 0px 0px;
-    background-color:rgb(18, 149, 229);
+    background-color:#73879C;
     cursor: pointer;
     font-size: 18px;
 }

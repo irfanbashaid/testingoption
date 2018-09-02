@@ -1,45 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
-<body>
- 
-<div class ="container-fluid">
-<div class = "row">
-     <div class = "col-sm-4">
-    </div>
-     <div class = "col-sm-4">
-       <img src="images/img.jpg" alt="..." class="img-circle profile_img" width="200" height="315">
-       <br>
-       <ul>
-        <ul class="list-unstyled user_data">
-            <h4>
-                &nbsp;&nbsp;<li><i class="glyphicon glyphicon-user">&nbsp;</i>   
-                {{a}}
-                </li>
-                <br>
-                <li>
-                <i class="glyphicon glyphicon-envelope">&nbsp;</i>abc@gmailcom
-                 </li>
-                 <br>
-                 <li>
-                <i class="fa fa-key user-profile-icon">&nbsp;&nbsp;&nbsp;&nbsp;</i> public key
-                </li>
-                <br>
-            </h4>
-            <br>
-            
-            <a class="btn btn-success"><i class="fa fa-edit m-right-xs">&nbsp;</i>Change password</a>
-       </ul>
-    </div>
-   <div class = "col-sm-4">
-    </div>
-</div>
-</div>
-<br><br>   
-</body>
-</html>
+   <!-- menu profile quick info -->
+            <div class="profile clearfix">
+              <div class="profile_pic">
+                <img src="/images/img.jpg" alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+              </div>
+            </div>
+            {{!-- <span>Welcome,</span>
+                <h2>{{usernam}}</h2> --}}
+            <!-- /menu profile quick info -->
+
+        <!-- page content -->
+        <div class="right_col" role="main" id="target">
+           <div class="row">
+        <div class="col-sm-2">
+             
+            <span>Welcome,</span>
+                <h2>{{usernam}}</h2>
+
+        </div>
+
+        <div class="col-sm-7" id="div">
+          {{!-- <div class="jumbotron" style="background-image:linear-gradient(45deg, #2A3F54 0%, #2A3F54 100%);">
+            <div  style="text-align:center">
+              <p style="color: wheat">Enter Private Key</p>
+              <input type="text" class="form-control" id="privkey" >
+              <br>  
+              <input type="button" value="Sign in" onclick="pkey()">
+            </div>
+          </div> --}}
+          </div>
+
+        <div class="col-sm-3"></div>
+      </div>  
+	
+        </div>
+
+        <!-- page content -->

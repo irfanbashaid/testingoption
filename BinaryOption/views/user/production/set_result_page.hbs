@@ -1,0 +1,60 @@
+ <div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Bettings</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  </li>
+                  
+                  </li>
+                </ul>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content" style="height:500px;overflow-y :scroll">
+                <table>
+                  <thead>
+                     <tr><b>
+                         <th>Option ID</th>
+                          <th>Minmum Bet</th>
+                          <th>Maximum Bet</th>
+                          <th>Result</th>
+                          <th>Total Amount in Low</th>
+                          <th>Total Amount in High</th>   
+                         </b> </tr>                    
+                  </thead>
+                  <tbody id="result_body"  style="text-align:left">
+                     
+
+                  </tbody>
+                </table>
+        
+                
+              </div> 
+            </div>
+          </div>
+
+
+  <div class="modal fade bs-example-modal-lg"  id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel"></h4>
+        </div>
+        <div class="modal-body">
+             <span>
+               <label for="account"><h4> Bet ID:</h4><input type="text" class="form-control" id="resultbet_id" readonly/></label>
+              {{!-- Bet ID&nbsp;<input type="text" id="resultbet_id" readonly>&nbsp;&nbsp;&nbsp; --}}
+              {{!-- <input type="text" style="width:100px" class="form-control" placeholder="Bet ID" id=""> --}}
+              <input type="radio" value ="1" id="g1" name="optradio">Loss
+              <input type="radio" value="2" id="g2" name="optradio">Won
+              <input type="radio" value="3" id="g3" name="optradio">Draw/No result&nbsp;&nbsp;&nbsp;
+              <button type="button" class="btn btn-round btn-primary" onclick="set_Result()">Set Result</button>    
+            </span>
+         </div>
+       
+      </div>
+    </div>
+  </div>
