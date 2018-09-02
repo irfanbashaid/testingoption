@@ -1,9 +1,5 @@
-
-	
-	web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/Vr1GWcLG0XzcdrZHWMPu'));
-	
-    var contract_Address = '0x9b2e2f1622e0ceb52287698ebbd6ef40766f444c';
-
+web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/Vr1GWcLG0XzcdrZHWMPu'));
+var contract_Address = '0x9b2e2f1622e0ceb52287698ebbd6ef40766f444c';
 var abi_json =[
 	{
 		"anonymous": false,
@@ -438,8 +434,6 @@ var binaryOption = new this.web3.eth.Contract(abi_json,contract_Address,{
 	gasLimit: 3000000,
 });
 var prikey;
-console.log("pkey",prikey);
-
 function cricket()
 {
 	if(prikey==undefined)
@@ -477,6 +471,7 @@ function my_bets(){
 		$("#target").load('myBets');
 	}
 }
+
 function deposit_withdraw()
 {
 	$("#target").load('football');
@@ -1511,8 +1506,6 @@ function withdraw_function(){
 			swal("Enter privatekey");
 		}	
 }
-
-
 
 //ownable contract
 

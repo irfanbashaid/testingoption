@@ -67,6 +67,30 @@ router.get('/production',function(req,res,next){
     
 })
 
+router.get('/deposit_withdraw',function(req,res){
+  res.render('user/production/deposit_withdraw')
+})
+router.get('/overall_bets',function(req,res){
+  res.render('user/production/overall_bets')
+})
+router.get('/my_bets',function(req,res){
+  res.render('user/production/my_bets')
+})
+
+router.get('/change_ownership',function(req,res){
+  res.render('user/production/change_ownership')
+})
+
+router.get('/create_option',function(req,res){
+  res.render('user/production/create_option')
+})
+
+router.get('/set_result_page',function(req,res){
+  res.render('user/production/set_result_page')
+})
+
+
+
 router.get('/cricket',function(req,res){
   res.render('user/production/cricket')
 })
@@ -74,7 +98,6 @@ router.get('/football',function(req,res){
   res.render('user/production/football')
 })
 router.get('/profile',function(req,res){
-  console.log("profile")
   res.render('user/production/profile')
 })
 router.get('/brokerpage',function(req,res){
