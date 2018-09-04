@@ -16,8 +16,19 @@
 <body>
   <p>owner</p>
 <div class="row">
-
-
+  <form action="/user/brokerpage" method="POST">
+ <div>
+                <input type="text"  placeholder="Enter team1" name="Team1" >
+              </div>
+              <div>
+                   <input type="text"  placeholder="Enter team2" name="Team2">
+              </div>
+               <div>
+                   <input type="text"  placeholder="select team" name="Selected">
+              </div>
+              <input type="hidden" name="_csrf" value="{{csrfToken}}">
+              <button  type="submit" class="btn btn-default" >Store</button>
+</form>
   <div class="col-md-4 col-sm-4 col-xs-12">
     <div class="x_panel tile fixed_height_320">
       <div class="x_title result">

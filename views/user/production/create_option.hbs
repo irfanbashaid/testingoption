@@ -1,0 +1,59 @@
+  <div class="col-md-8 col-sm-8 col-xs-12">
+    <div class="x_panel tile fixed_height_420 overflow_hidden">
+      <div class="x_title">
+        <h2>Create Bet</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+        
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <form action="/user/create_option" method="POST">
+      <div class="x_content" style="text-align: center">
+          <label for="account"><b>Team A:</b><input type="text" class="form-control" id="t_m1"   placeholder="Enter team1" name="Team1"/></label>
+          <label for="account"><b> Team B:</b><input type="text" class="form-control" id="t_m2"  placeholder="Enter team2" name="Team2" /></label><br>
+           <span>
+                <h4> <label for="account"><b>Select a Team </b></label></h4>
+                  &nbsp; &nbsp; <input type="radio" name="Selected"  value="1" id="tm1">Team A
+                  &nbsp; &nbsp;<input type="radio" name="Selected"  value="2" id="tm2" >Team B
+                  {{!-- &nbsp; &nbsp;<button type="button" class="btn btn-round btn-primary" onclick="bet()">bet</button>     --}}
+           </span><br><br>
+ 
+        <label for="account"><b>Minimum Amount:</b><input type="text" class="form-control" id="min_bet"/></label>
+          <label for="account"><b> Maximum Amount:</b><input type="text" class="form-control" id="max_bet" /></label>
+          <label for="account"><b>Start Time:</b><input type="datetime-local" class="form-control" id="start_time"/></label>
+          <label for="account"><b>End Time:</b><input type="datetime-local" class="form-control" id="end_time"/></label> 
+          <div id="datetimepicker12"></div>
+                                <br>
+
+              {{!-- <input type="hidden" id="t"  placeholder="select team" name="Selected"> --}}
+              <input type="hidden" name="_csrf" value="{{csrfToken}}">
+          {{!-- <button type="button" class="btn btn-round btn-primary" onclick="create_option()">create bet</button>&nbsp;    --}}
+              <button  type="submit"  class="btn btn-default">Set Game</button>
+      </div>
+      </form>
+    </div>
+  </div>
+
+
+
+{{!-- <form action="/user/brokerpage" method="POST">
+ <div>
+                <input type="text" id="t_m1" oninput="team1()"  placeholder="Enter team1" name="Team1" >
+              </div>
+              <div>
+                   <input type="text" id="t_m2" oninput="team2()" placeholder="Enter team2" name="Team2">
+              </div>
+               <div style="text-align: center;">
+                 <span role="radio" id="tm1" onclick="select1()"></span>&nbsp;&nbsp;Vs&nbsp;&nbsp;<span role="button" id="tm2" onclick="select2()"></span>
+                  
+              </div>
+               <input type="hidden" id="t"  placeholder="select team" name="Selected">
+              <input type="hidden" name="_csrf" value="{{csrfToken}}">
+              <div style="text-align: center;margin-top: 20px;margin-bottom: 20px;">
+              <button  type="submit"  class="btn btn-default" >Set Game</button>
+              </div>
+             
+</form>  --}}

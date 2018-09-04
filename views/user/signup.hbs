@@ -13,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentelella Alela! | </title>
+    <title>Chainflux | </title>
 
     <!-- Bootstrap -->
     {{!-- <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
@@ -47,6 +47,12 @@
               </div>
               <div>
                 <input type="password" class="form-control" placeholder="Password" name="password" required="" />
+              </div>
+              <div>
+                <input type="text" id="private_key" placeholder=" private key" oninput="publickeyconvertion()">
+              </div>
+              <div>
+                 <input type="hidden" class="form-control" id="demo" placeholder="public key" name="publickey" required="" />
               </div>
               <div>
                   <input type="hidden" name="_csrf" value="{{csrfToken}}">

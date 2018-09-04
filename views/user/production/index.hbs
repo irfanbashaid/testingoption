@@ -7,14 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	{{!-- <link rel="icon" href="images/favicon.ico" type="image/ico" /> --}}
-
+{{!-- <script src="../../../public/javascripts/app.js"></script> --}}
     <title>Version 4</title>   
 
 </script>
 
 </head>
 
-  <body class="nav-md">
+  <body class="nav-md" onload="set_Private_key(h.value)">
     <div class="container body">
       <div class="main_container">
         <div class="col-md-3 left_col">
@@ -44,15 +44,14 @@
               <div class="menu_section">
                 {{!-- <h3>General</h3> --}}
                 <ul class="nav side-menu">
-                  <li><a onclick="profile()"><b>Profile</b></a></li>
-                  <li><a onclick="deposit_withdraw()"><b>Deposit & Withdrawl</b></a></li>
-                  <li><a onclick="overall_bets()"><b>Overall Bets</b></a></li>
-                  <li><a onclick="my_bets()"><b>My Bets</b></a></li>
-                  <li><a onclick="cricket()"><i class="fa fa-first-order"></i>User </a></li>
-                  <li><a onclick="change_ownership()"><b>Change Ownership</b></a></li>
-                  <li><a onclick="create_option_page()"><b>Create Bet</b></a></li>
-                  <li><a onclick="set_result_page()"><b>Set Result</b></a></li>
-                  <li><a onclick="brokerpage()">reference Owner</a></li>
+                  <li><a onclick="profile()"><i class="fa fa-id-card-o"></i><b>Profile</b></a></li>
+                  <li><a onclick="deposit_withdraw()"><i class="fa fa-arrows-v"></i><b>Deposit & Withdrawl</b></a></li>
+                  <li><a onclick="overall_bets()"><i class="fa fa-globe"></i><b>Overall Bets</b></a></li>
+                  <li><a onclick="my_bets()"><i class="fa fa-product-hunt"></i><b>My Bets</b></a></li>
+                  <li><a onclick="change_ownership()"><i class="fa fa-exchange"></i><b>Change Ownership</b></a></li>
+                  <li><a onclick="create_option_page()"><i class="fa fa-plus-circle"></i><b>Create Bet</b></a></li>
+                  <li><a onclick="set_result_page()"><i class="fa fa-thumbs-up"></i><b>Set Result</b></a></li>
+                  {{!-- <li><a onclick="password()"><b>Forgot Password</b></a></li> --}}
                 </ul>
               </div>
 
@@ -61,7 +60,7 @@
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
+            {{!-- <div class="sidebar-footer hidden-small">
               <a data-toggle="tooltip" data-placement="top" title="Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
@@ -74,7 +73,7 @@
               <a data-toggle="tooltip" data-placement="top" title="Logout" href="/logout">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
-            </div>
+            </div> --}}
             <!-- /menu footer buttons -->
           </div>
         </div>
@@ -100,81 +99,20 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="javascript:;"> Profile</a></li>
-                    <li>
-                      <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <li><a href="javascript:;">Help</a></li>
                     <li><a href="/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
 
-                <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">6</span>
-                  </a>
-                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="text-center">
-                        <a>
-                          <strong>See All Alerts</strong>
-                          <i class="fa fa-angle-right"></i>
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
+                   <br>
+                <div class="col-md-4 col-sm-6 col-xs-8 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-user"></i><b>&nbsp;&nbsp;Ethereum Account balance</b></span>
+                    <div class="count green"><p id="address_acc_balance"></p></div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-8 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-user"></i><b>&nbsp;&nbsp; Contract Account Balance</b</span>
+                    <div class="count green" ><p id="address_balance"></p></div>
+               </div>   
+
               </ul>
             </nav>
           </div>
@@ -187,14 +125,19 @@
         <div class="col-sm-3"></div>
 
         <div class="col-sm-6" id="div">
-          <div class="jumbotron" style="background-image:linear-gradient(45deg, #2A3F54 0%, #2A3F54 100%);">
+          
+            <input type="hidden" id="h" value={{ privatekey }} readonly hidden>
+            {{!-- <h1 id="h">{{ privatekey }}</h1> --}}
+            <br>
+            {{!-- <input type="button" value="Proceed" onclick="set_Private_key(h.value)"> --}}
+          {{!-- <div class="jumbotron" style="background-image:linear-gradient(45deg, #2A3F54 0%, #2A3F54 100%);">
             <div  style="text-align:center">
               <p style="color: wheat">Enter Private Key</p>
               <input type="text" class="form-control" id="privkey" >
               <br>  
               <input type="button" value="Sign in" onclick="pkey()">
             </div>
-          </div>
+          </div> --}}
           </div>
         <div class="col-sm-3"></div>
       </div>  
@@ -206,4 +149,5 @@
       <!-- <span class="glyphicon" (click)="set()" style="color:wheat">Signin  &#xe163;</span> -->
       <!-- <i class="fas fa-key" style="color:wheat"></i  > -->
   </body>
+ 
 </html>

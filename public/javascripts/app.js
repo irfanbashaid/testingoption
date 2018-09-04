@@ -1,5 +1,5 @@
 web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/Vr1GWcLG0XzcdrZHWMPu'));
-var contract_Address = '0x9b2e2f1622e0ceb52287698ebbd6ef40766f444c';
+var contract_Address = '0xfe3e358b8fb6d8336ddf06cd436bc510bbf2ffc0';
 var abi_json =[
 	{
 		"anonymous": false,
@@ -96,6 +96,14 @@ var abi_json =[
 			},
 			{
 				"name": "_maxbet",
+				"type": "uint256"
+			},
+			{
+				"name": "_starttime",
+				"type": "uint256"
+			},
+			{
+				"name": "_endtime",
 				"type": "uint256"
 			}
 		],
@@ -242,18 +250,6 @@ var abi_json =[
 		"inputs": [
 			{
 				"indexed": false,
-				"name": "optionID",
-				"type": "uint256"
-			}
-		],
-		"name": "OptionFinalized",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
 				"name": "beneficiary",
 				"type": "address"
 			},
@@ -264,6 +260,18 @@ var abi_json =[
 			}
 		],
 		"name": "Withdrawn",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "optionID",
+				"type": "uint256"
+			}
+		],
+		"name": "OptionFinalized",
 		"type": "event"
 	},
 	{
@@ -304,12 +312,6 @@ var abi_json =[
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
 		"constant": false,
 		"inputs": [
 			{
@@ -327,6 +329,12 @@ var abi_json =[
 		"payable": true,
 		"stateMutability": "payable",
 		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	},
 	{
 		"constant": true,
@@ -358,6 +366,10 @@ var abi_json =[
 			},
 			{
 				"name": "selectedvalue",
+				"type": "uint256"
+			},
+			{
+				"name": "betid",
 				"type": "uint256"
 			}
 		],
@@ -393,6 +405,10 @@ var abi_json =[
 			},
 			{
 				"name": "totals",
+				"type": "uint256[]"
+			},
+			{
+				"name": "times",
 				"type": "uint256[]"
 			}
 		],
@@ -433,22 +449,38 @@ var abi_json =[
 var binaryOption = new this.web3.eth.Contract(abi_json,contract_Address,{
 	gasLimit: 3000000,
 });
-var prikey;
+
+var original_key;
+var account;
+function set_Private_key(key)
+{
+	let meta = this;
+	original_key = key;
+	const privatekeydetails = meta.web3.eth.accounts.privateKeyToAccount('0x'+original_key);	 
+	account = privatekeydetails["address"];
+	alert(original_key)
+	// getUserBalance();
+
+}
 
 function change_ownership(){
 	$('#target').load('change_ownership');  
-	// balanceOf_func();
-	// getUserBalance();
+	balanceOf_func();
+	getUserBalance();
 }
 
 function create_option_page(){
 	console.log("cretingoption")
-	$('#target').load('create_option');  
+	$('#target').load('create_option'); 
+	balanceOf_func();
+	getUserBalance(); 
 }
 
 function set_result_page(){
 	$('#target').load('set_result_page'); 
 	result_table();
+	balanceOf_func();
+	getUserBalance();
 }
 
 function deposit_withdraw(){
@@ -460,33 +492,47 @@ function deposit_withdraw(){
 function overall_bets(){
 	$('#target').load('overall_bets');  
 	table_options()
+	balanceOf_func();
+	getUserBalance();
 }
 
 function my_bets(){
 	$('#target').load('my_bets');  
 	better_table();
+	balanceOf_func();
+	getUserBalance();
 }
 
 function cricket()
-{
-	
+{   
 	$("#target").load('cricket');  
 	table_options()
+	balanceOf_func();
+	getUserBalance();
 	
 }
 
+// function password(){
+// 	$("#target").load('password');
+// }
+
 function football()
 {
-    $("#target").load('football');  
+	$("#target").load('football'); 
+	balanceOf_func();
+	getUserBalance(); 
 }
 
 function profile()
 {
-    $("#target").load('profile');  
+	$("#target").load('profile');  
+	balanceOf_func();
+	getUserBalance();
 }
-
 function brokerpage(){	
 	$("#target").load('brokerpage')
+	balanceOf_func();
+	getUserBalance();
 	
 }
 
@@ -500,20 +546,19 @@ async function admin_address(){
 }
 
 function pkey(){
-	var meta=this;
-	meta.prikey=document.getElementById('privkey').value;
-	meta.getAccounts().then(current_address => {
-		console.log("current"+current_address);
+	var meta=this;	
+	// meta.getAccounts().then(current_address => {
+		console.log("current"+prikey);
 		meta.admin_address().then(owner_address => {
 			
 		console.log("owner"+owner_address);
 	
-		if(owner_address==current_address){
+		if(owner_address==pkey){
 			meta.admin_address();
 			meta.table_options();
 			$("#target").load('brokerpage')
 		}
-		else if(owner_address!=current_address){
+		else if(owner_address!=pkey){
 			meta.getAccounts();
 			meta.balanceOf_func();
 			meta.table_options();
@@ -521,15 +566,60 @@ function pkey(){
 			$("#target").load('cricket');  
 		}
 	});
-	});
+	// });
 
 }
+
+
+
+// function pkey(){
+// 	var meta=this;
+// 	meta.prikey=document.getElementById('privkey').value;
+// 	meta.getAccounts().then(current_address => {
+// 		console.log("current"+current_address);
+// 		meta.admin_address().then(owner_address => {
+			
+// 		console.log("owner"+owner_address);
+	
+// 		if(owner_address==current_address){
+// 			meta.admin_address();
+// 			meta.table_options();
+// 			$("#target").load('overall_bets')
+// 		}
+// 		else if(owner_address!=current_address){
+// 			meta.getAccounts();
+// 			meta.balanceOf_func();
+// 			meta.table_options();
+// 			meta.better_table();
+// 			$("#target").load('profile');  
+// 		}
+// 	});
+// 	});
+
+// }
+
+// function team1(){
+// 	document.getElementById("tm1").innerText = document.getElementById("t_m1").value;	
+// }
+// function team2(){
+// 	document.getElementById("tm2").innerText = document.getElementById("t_m2").value;	
+// }
+
+// function select1() {
+//     document.getElementById("tm1").style.color = "red";
+//         document.getElementById("tm2").style.color = "black";
+//       document.getElementById("t").value=document.getElementById("tm1").innerText
+// }
+// function select2() {
+//     document.getElementById("tm2").style.color = "red";
+//       document.getElementById("tm1").style.color = "black";
+//        document.getElementById("t").value=document.getElementById("tm2").innerText
+// }
 
 async function getUserBalance() {
     let instance = this;
     return new Promise((resolve, reject) => {
-		instance.getAccounts().then(address=>{
-			instance.web3.eth.getBalance(address,function(err,result){
+			instance.web3.eth.getBalance(account,function(err,result){
 				if(err != null) {
 				reject(err);
 				}
@@ -539,35 +629,50 @@ async function getUserBalance() {
 					resolve(web3.utils.fromWei(result,'ether'));
 				}
 			})
-		})
     })
 }
 
-async function getAccounts(){
-	let meta = this;
-	return new Promise((resolve,reject)=>{
-	let obj = meta.web3.eth.accounts.privateKeyToAccount('0x'+meta.prikey);
-    var address=obj['address'];	
-	$("#address").val(address)
-	
-	resolve(obj['address'])
-	})
-}
+
+// async function getAccounts(){
+// 	console.log("bcakbasd")
+// 	let meta = this;
+// 	return new Promise((resolve,reject)=>{
+// 	let obj = meta.web3.eth.accounts.privateKeyToAccount('0x'+meta.prikey);
+// 	var address=obj['address'];	
+// 	$("#address").val(address)
+// 	resolve(obj['address'])
+// 	})
+// }
 
 async function balanceOf_func(){
 	var meta= this;
 	return new Promise((resolve,reject)=>{
-		meta.getAccounts().then(address=>{
-			meta.binaryOption.methods.balanceOf().call({from:address},function(err,balance) {
+		// meta.getAccounts().then(address=>{
+			meta.binaryOption.methods.balanceOf().call({from:account},function(err,balance) {
 				var bal = web3.utils.fromWei(balance,'ether');
+				console.log("bal"+bal);
+				
 				document.getElementById("address_balance").innerText=parseFloat(bal).toFixed(4)+" ether";
 				$("#address_balance").val(web3.utils.fromWei(balance));	
-				resolve (balance);
+				resolve(balance);
 			})				
-		})
+		// })
 	})
 }
-//create option
+
+
+var publickey
+async function publickeyconvertion() {
+	let meta = this;
+	return new Promise((resolve,reject)=>{
+	var temp = document.getElementById('private_key').value;
+		const privatekeydetails = meta.web3.eth.accounts.privateKeyToAccount("0x"+temp,'hex');
+	document.getElementById("demo").value=(privatekeydetails['address']);
+			resolve (privatekeydetails['address']);
+			alert(privatekeydetails['address'])
+	})
+	
+}
 
 async function optionDetails_function(ids){
 	return new Promise((resolve,reject)=>{
@@ -577,9 +682,14 @@ async function optionDetails_function(ids){
 })
 }
 
-async function create_option(){
-	console.log("in optio          n");
-	
+
+
+function create_option(){
+	return new Promise((resolve,reject)=>{
+
+	console.log("in option");
+
+	alert(original_key)
 	var _minbet = document.getElementById("min_bet").value;
 	var _maxbet = document.getElementById("max_bet").value;
 	var _start_time = document.getElementById("start_time").value;
@@ -590,19 +700,25 @@ async function create_option(){
 	var startTime = parseInt(Math.round(new Date(_start_time).getTime() / 1000))
 	var endTime = parseInt(Math.round(new Date(_end_time).getTime() / 1000))
 	
-	console.log(tim)
+	
 	console.log(_end_time)
 	var meta=this;
-	if(meta.prikey.length==64){
+	if(original_key.length==64){
 if (($('#min_bet').val() != '') && ($('#max_bet').val() != '')){
-meta.getAccounts().then(current_address => { 
-var senderAddress = current_address;
+// meta.getAccounts().then(current_address => { 
+// var senderAddress = current_address;
 try
 {
-web3.eth.getTransactionCount(senderAddress,function(err,result){
+web3.eth.getTransactionCount(account,function(err,result){
 var  nonce = result.toString(16);
 
-var privateKey = ethereumjs.Buffer.Buffer(prikey,'hex'); 
+var privateKey = ethereumjs.Buffer.Buffer(original_key,'hex'); 
+const object = meta.web3.eth.accounts.privateKeyToAccount("0x"+original_key,'hex');
+var senderAddress = object['address']
+console.log(minbet)
+	console.log(maxbet);
+console.log(startTime);
+console.log(endTime);
 
 var contractFunction =binaryOption.methods.createOption(minbet,maxbet,startTime,endTime);  
 var functionAbi = contractFunction.encodeABI()
@@ -624,6 +740,7 @@ hash_function(receipt['transactionHash']).then(res=>{
 	if(res == 0){
 		$('#min_bet').val('');								
 		$('#max_bet').val('');
+		resolve(0)
 alert("rejected")
 	}
 	else if(res == 1) {
@@ -631,22 +748,24 @@ alert("rejected")
 		$('#max_bet').val('');
 		meta.table_options();
 		alert("success")
+		resolve(1)
 	}
 	else if(res == 2) {
 		$('#min_bet').val('');								
 		$('#max_bet').val('');
 		alert("Transaction Faild")
+		resolve(2)
 	}
 });
 
 })
 })
 }
-catch
+catch(e)
 {
-console.log(error)
+console.log(e)
 }
-})
+// })
 }
  else
  {
@@ -661,6 +780,7 @@ else{
 		$('#max_bet').val('');	
 		alert("Enter privatekey");
 }
+	})
 }
 
 //betting
@@ -698,12 +818,12 @@ function bet(){
 		console.log(gf,opid,amt);
 		
 		if (($('#optionid').val() != '') && ($('#amount').val() != '') && (gm == 1 || gm==2)){
-			meta.getAccounts().then(current_address => {     
-		var senderAddress = current_address;
-		console.log(senderAddress);
+		// 	meta.getAccounts().then(current_address => {     
+		// var senderAddress = current_address;
+		// console.log(senderAddress);
 		try
 		{
-		web3.eth.getTransactionCount(senderAddress,function(err,result){
+		web3.eth.getTransactionCount(meta.prikey,function(err,result){
 			
 		console.log(result);
 		
@@ -756,11 +876,11 @@ function bet(){
 	 })
 	})
  }
- catch
+ catch(e)
  {
-	 console.log(error)
+	 console.log(e)
  }
-			})
+			// })
 		}
 		 else
 		 {
@@ -797,12 +917,12 @@ function change_bet(){
 		console.log(gf,opid);
 		
 		if (($('#change_optionid').val() != '') && (gf == 1 || gf == 2)){
-			meta.getAccounts().then(current_address => {     
-		var senderAddress = current_address;
-		console.log(senderAddress);
+		// 	meta.getAccounts().then(current_address => {     
+		// var senderAddress = current_address;
+		// console.log(senderAddress);
 		try
 		{
-		web3.eth.getTransactionCount(senderAddress,function(err,result){
+		web3.eth.getTransactionCount(meta.prikey,function(err,result){
 			
 		console.log(result);
 		
@@ -854,7 +974,7 @@ function change_bet(){
  {
 	 console.log(error)
  }
-			})
+			// })
 		}
 		 else
 		 {
@@ -881,12 +1001,12 @@ function increase_bet(){
 			var amt = web3.utils.toWei(am_t,'ether')
 			if(prikey.length==64){
 		if (($('#increase_optionid').val() != '') && ($('#amt').val() != '')){
-			meta.getAccounts().then(current_address => { 
-		var senderAddress = current_address;
-		console.log(senderAddress);
+		// 	meta.getAccounts().then(current_address => { 
+		// var senderAddress = current_address;
+		// console.log(senderAddress);
 		try
 		{
-		web3.eth.getTransactionCount(senderAddress,function(err,result){
+		web3.eth.getTransactionCount(meta.prikey,function(err,result){
 			
 		console.log(result);
 		
@@ -937,7 +1057,7 @@ function increase_bet(){
  {
 	 console.log(error)
  }
-			})
+			// })
 		}
 		 else
 		 {
@@ -963,12 +1083,12 @@ function decrease_bet(){
 			var amt = web3.utils.toWei(am_t,'ether')
 			if(prikey.length==64){
 		if (($('#increase_optionid').val() != '') && ($('#increase_amount').val() != '')){
-			meta.getAccounts().then(current_address => { 
-		var senderAddress = current_address;
-		console.log(senderAddress);
+		// 	meta.getAccounts().then(current_address => { 
+		// var senderAddress = current_address;
+		// console.log(senderAddress);
 		try
 		{
-		web3.eth.getTransactionCount(senderAddress,function(err,result){
+		web3.eth.getTransactionCount(meta.prikey,function(err,result){
 			
 		console.log(result);
 		
@@ -1019,7 +1139,7 @@ function decrease_bet(){
  {
 	 console.log(error)
  }
-			})
+			// })
 		}
 		 else
 		 {
@@ -1041,12 +1161,12 @@ function exit_bet(){
 	var opid = document.getElementById("increase_optionid").value;
 	if(prikey.length==64){
 		if (($('#increase_optionid').val() != '')){
-			meta.getAccounts().then(current_address => { 
-		var senderAddress = current_address;
-		console.log(senderAddress);
+		// 	meta.getAccounts().then(current_address => { 
+		// var senderAddress = current_address;
+		// console.log(senderAddress);
 		try
 		{
-		web3.eth.getTransactionCount(senderAddress,function(err,result){
+		web3.eth.getTransactionCount(meta.prikey,function(err,result){
 			
 		console.log(result);
 		
@@ -1094,7 +1214,7 @@ function exit_bet(){
  {
 	 console.log(error)
  }
-			})
+			// })
 		}
 		 else
 		 {
@@ -1126,12 +1246,12 @@ function set_Result(){
 		
 	if(prikey.length==64){
 		if (gm == 1 || gm==2 || gm==3){
-			meta.getAccounts().then(current_address => { 
-		var senderAddress = current_address;
-		console.log(senderAddress);
+		// 	meta.getAccounts().then(current_address => { 
+		// var senderAddress = current_address;
+		// console.log(senderAddress);
 		try
 		{
-		web3.eth.getTransactionCount(senderAddress,function(err,result){
+		web3.eth.getTransactionCount(meta.prikey,function(err,result){
 			
 		console.log(result);
 		
@@ -1181,7 +1301,7 @@ function set_Result(){
  {
 	 console.log(error)
  }
-			})
+			// })
 		}
 		 else
 		 {
@@ -1202,12 +1322,12 @@ function finalize_Option(op_id){
 	// var opid = document.getElementById("finalize_optionid").value;
 	if(prikey.length==64){
 		if (op_id != ''){
-			meta.getAccounts().then(current_address => {  
-		var senderAddress = current_address;
-		console.log(senderAddress);
+		// 	meta.getAccounts().then(current_address => {  
+		// var senderAddress = current_address;
+		// console.log(senderAddress);
 		try
 		{
-		web3.eth.getTransactionCount(senderAddress,function(err,result){
+		web3.eth.getTransactionCount(meta.prikey,function(err,result){
 			
 		console.log(result);
 		
@@ -1253,7 +1373,7 @@ function finalize_Option(op_id){
  {
 	 console.log(error)
  }
-			})
+			// })
 		}
 		 else
 		 {
@@ -1273,12 +1393,12 @@ function claim_function(){
 	var opid = document.getElementById("claim_optionid").value;
 	if(prikey.length==64){
 		if (($('#claim_optionid').val() != '')){
-			meta.getAccounts().then(current_address => {    
-		var senderAddress = current_address;
-		console.log(senderAddress);
+		// 	meta.getAccounts().then(current_address => {    
+		// var senderAddress = current_address;
+		// console.log(senderAddress);
 		try
 		{
-		web3.eth.getTransactionCount(senderAddress,function(err,result){
+		web3.eth.getTransactionCount(meta.prikey,function(err,result){
 			
 		console.log(result);
 		
@@ -1325,7 +1445,7 @@ function claim_function(){
  {
 	 console.log(e)
  }
-			})
+			// })
 		}
 		 else
 		 {
@@ -1377,23 +1497,23 @@ async function hash_function(hash) {
 function deposite_function(){
 	var meta=this;
 	var amount = document.getElementById("dep_amount").value;
-	if(prikey.length==64){
+	if(original_key.length==64){
 	var amt= web3.utils.toWei(amount,'ether')
-			meta.getAccounts().then(current_address => {  
-		var senderAddress = current_address;
-		console.log(senderAddress);
+		// 	meta.getAccounts().then(current_address => {  
+		// var senderAddress = current_address;
+		// console.log(senderAddress);
 		try
 		{
-		web3.eth.getTransactionCount(senderAddress,function(err,result){
+		web3.eth.getTransactionCount(account,function(err,result){
 		var  nonce = result.toString(16);
-		var privateKey = ethereumjs.Buffer.Buffer(prikey,'hex'); 
+		var privateKey = ethereumjs.Buffer.Buffer(original_key,'hex'); 
 		var contractFunction =binaryOption.methods.deposit();  
 		var functionAbi = contractFunction.encodeABI()
 		var  txParams  = {
 		 nonce: '0x' +nonce,
 		 gasPrice:  '0x4A817C800',
 		 gasLimit: 4000000,
-		 from :senderAddress,
+		 from :account,
 		 to: contract_Address,
 		 value: web3.utils.toHex(amt),
 		 data: functionAbi
@@ -1426,7 +1546,7 @@ function deposite_function(){
  {
 	 console.log(error)
  }
-			})	 
+			// })	 
 		}
 		else{		
 			$('#dep_amount').val('');									
@@ -1438,19 +1558,19 @@ function withdraw_function(){
 	var meta=this;
 	var amount = document.getElementById("withdraw_amount").value;
 	var amt= web3.utils.toWei(amount.toString(),'ether')
-	if(prikey.length==64){
-			meta.getAccounts().then(current_address => {  
-		var senderAddress = current_address;
-		console.log(senderAddress);
+	if(original_key.length==64){
+		// 	meta.getAccounts().then(current_address => {  
+		// var senderAddress = current_address;
+		// console.log(senderAddress);
 		try
 		{
-			meta.web3.eth.getTransactionCount(senderAddress,function(err,result){
+			meta.web3.eth.getTransactionCount(account,function(err,result){
 			
 		console.log(result);
 		
 		var  nonce = result.toString(16);
 
-		var privateKey = ethereumjs.Buffer.Buffer(meta.prikey,'hex'); 
+		var privateKey = ethereumjs.Buffer.Buffer(original_key,'hex'); 
 	 
 		var contractFunction =meta.binaryOption.methods.withdraw(amt);  
 		var functionAbi = contractFunction.encodeABI()
@@ -1458,7 +1578,7 @@ function withdraw_function(){
 		 nonce: '0x' +nonce,
 		 gasPrice:  '0x4A817C800',
 		 gasLimit: 4000000,
-		 from :senderAddress,
+		 from :account,
 		 to: meta.contract_Address,
 		 value: '0x00',
 		 data: functionAbi
@@ -1490,7 +1610,7 @@ function withdraw_function(){
  {
 	 console.log(error)
  }
-			})	 
+			// })	 
 		}
 		else{		
 			$('#dep_amount').val('');									
@@ -1503,12 +1623,12 @@ function transferOwnership_function(){
 	var meta=this;
 	var newowner = document.getElementById("new_owner_address").value;
 	if(prikey.length==64){
-			meta.getAccounts().then(current_address => {  
-		var senderAddress = current_address;
-		console.log(senderAddress);
+		// 	meta.getAccounts().then(current_address => {  
+		// var senderAddress = current_address;
+		// console.log(senderAddress);
 		try
 		{
-		web3.eth.getTransactionCount(senderAddress,function(err,result){
+		web3.eth.getTransactionCount(meta.prikey,function(err,result){
 			
 		console.log(result);
 		
@@ -1555,7 +1675,7 @@ function transferOwnership_function(){
  {
 	 console.log(error)
  }
-			})	 
+			// })	 
 		}
 		else{		
 			$('#new_owner_address').val('');									
@@ -1565,39 +1685,39 @@ function transferOwnership_function(){
 
 (document).ready(function(){
 
-	// $("select").click(function(){
-	// $("option").click(function(){
+	$("select").click(function(){
+	$("option").click(function(){
 
 		
-	// 	if($("#one").val() == "1")
-	// 	$("#secondname").show();
-	// 	$("#firstname").show();
-	// 	alert("1");
+		if($("#one").val() == "1")
+		$("#secondname").show();
+		$("#firstname").show();
+		alert("1");
 
-	// 		if($("#two").val() == 2)
-	// 		$("#secondname").show();
-	// 		$("#firstname").show();
-	// 		alert("2");
+			if($("#two").val() == 2)
+			$("#secondname").show();
+			$("#firstname").show();
+			alert("2");
 
 
-	// 			if($("#three").val() == 3)
-	// 			$("#secondname").show();
-	// 			alert("3");
-	// })
-	// $("select").click(function(){
-	// 	// $("option").click(function(){
+				if($("#three").val() == 3)
+				$("#secondname").show();
+				alert("3");
+	})
+	$("select").click(function(){
+		// $("option").click(function(){
 
 			
-	// 		if($("#one").val() == 1)
-	// 		$("#secondname").show();
-	// 		$("#firstname").show();
-	// 		alert("1");
-	// 	})
+			if($("#one").val() == 1)
+			$("#secondname").show();
+			$("#firstname").show();
+			alert("1");
+		})
 		
 	
 
 	
-	// })
+	})
 
 })
 
@@ -1605,32 +1725,42 @@ function transferOwnership_function(){
 function table_options(){
 	$("#body_option").html('');
 	var meta =this;
-	meta.getAccounts().then(address=>{		
+
 	meta.optionIds().then(ids=>{		 		
-		for (let i=1;i<=ids.length;i++){			
+		for (let i=1;i<=ids.length;i++){	
+				  
 	meta.optionDetails_function(i).then(option_records=>{
+
 		if(option_records[3]==0 && option_records[2]==0){
-			// var j=i;
-			$("#body_option").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"Pending"+'</td><td>'+web3.utils.fromWei(option_records[4][0])+'</td><td>'+web3.utils.fromWei(option_records[4][1])+'</td><td><button data-toggle="modal" class="btn btn-default dropdown-toggle" data-target="#myModal" type="button" onclick="setBetId('+i+')" aria-expanded="false"> Bet Details <span class="caret"></span> </td></button></tr>')
+			
+			document.getElementById('wins').innerText=10;
+			document.getElementById('loss').innerText=10;
+
+			document.getElementById('total').innerText=parseInt(option_records[4][0])+parseInt(option_records[4][1])
+			$("#body_option").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"Pending"+'</td><td>'+web3.utils.fromWei(option_records[4][0])+'</td><td>'+web3.utils.fromWei(option_records[4][1])+'</td><td><button data-toggle="modal" class="btn btn-default dropdown-toggle" data-target="#myModal" type="button" onclick="setBetId('+i+','+0+')" aria-expanded="false"> Bet Details <span class="caret"></span> </td></button></tr>')
+
 		}
 		else if(option_records[3]==1){
+
 			if(option_records[2]==1){
-				$("#body_option").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"LOW"+'</td><td>'+option_records[4][0]+'</td><td>'+option_records[4][1]+'</td></tr>')
+
+				$("#body_option").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"LOW"+'</td><td>'+option_records[4][0]+'</td><td>'+option_records[4][1]+'</td><td><button data-toggle="modal" class="btn btn-default dropdown-toggle" data-target="#myModal" type="button" onclick="setBetId('+i+','+1+')" aria-expanded="false"> Bet Details <span class="caret"></span> </td></button></tr>')
 			}
 			else if(option_records[2]==2){
-				$("#body_option").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"HIGH"+'</td><td>'+option_records[4][0]+'</td><td>'+option_records[4][1]+'</td></tr>')
+
+				$("#body_option").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(option_records[0])+'</td><td>'+web3.utils.fromWei(option_records[1])+'</td><td>'+"HIGH"+'</td><td>'+option_records[4][0]+'</td><td>'+option_records[4][1]+'</td><td><button data-toggle="modal" class="btn btn-default dropdown-toggle" data-target="#myModal" type="button" onclick="setBetId('+i+','+2+')" aria-expanded="false"> Bet Details <span class="caret"></span> </td></button></tr>')
 			}
 		}
-	})			
+})		
 		}
 	})
-});
+// });
 }
 
 function result_table(){
 	$("#result_body").html('');
 	var meta =this;
-	meta.getAccounts().then(address=>{		
+	// meta.getAccounts().then(address=>{		
 	meta.optionIds().then(ids=>{		 		
 		for (let i=1;i<=ids.length;i++){			
 	meta.optionDetails_function(i).then(option_records=>{
@@ -1649,22 +1779,46 @@ function result_table(){
 	})			
 		}
 	})
-});
+// });
 }
 
 function setResultBetId(betId){
 	document.getElementById('resultbet_id').value =betId;
 }
-function setBetId(betId){
+
+function setBetId(betId,state){
 	document.getElementById('myModalLabel').innerText ="Bet ID: "+betId;
+	
+	this.bet_Details(betId,account).then(result =>{
+		console.log(result);
+		if(result[2] != 0 && result[0] != 0)
+		{
+			//
+		}
+		
+
+
+	if(state == 0)
+	{
+		$('#target1').show(true)
+		$('#target2').hide(true)
+
+	}
+	else if(state == 1 || state == 2)
+	{
+		$('#target_main').hide(true)
+	    
+	}
+})
 }
+
 function better_table(){
 	$("#body_better").html('');
 	var meta =this;
-	meta.getAccounts().then(address=>{
+	// meta.getAccounts().then(address=>{
 		meta.optionIds().then(ids=>{
 			for (let i=1;i<=ids.length;i++){
-				meta.bet_Details(i,address).then(betdetails=>{
+				meta.bet_Details(i,account).then(betdetails=>{
 					if(betdetails[1]!=0){
 						if(betdetails[1]==1){
 							$("#body_better").append('<tr><td>'+i+'</td><td>'+web3.utils.fromWei(betdetails[0],'ether')+'</td><td>'+"LOW"+'</td></tr>')
@@ -1676,5 +1830,5 @@ function better_table(){
 				})
 			}
 		})
-	})
+	// })
 }

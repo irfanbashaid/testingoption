@@ -46,10 +46,10 @@ passport.use('local-signup',new LocalStrategy({
                 
                 return done(null,false,{message:'username is already in use.'});
             }
-
         var newUser = new User();
         newUser.email= email;
         newUser.username= req.body.username;
+        newUser.publickey= req.body.publickey;
         newUser.password=newUser.encryptPassword(password);
         console.log("new");
         
@@ -97,6 +97,10 @@ passport.use('local-signin',new LocalStrategy({
             // if(! bcrypt.compareSync(password1,user.password)){                                          
             return done(null,false,{message:'Wrong Password.'});
         }
+
+        if(user.publickey != req.body.publickkey){
+            return done(null,false,{message:'Wrong privatekey.'});
+        }       
        req.session.user=user;
         return done(null,user);
     })
