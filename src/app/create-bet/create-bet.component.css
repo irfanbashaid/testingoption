@@ -1,0 +1,34 @@
+.card {
+    box-shadow: 0 8px 10px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 50%;
+    height:750px;
+    margin-top: 55px;
+    margin-left:550px;
+    color:#777777;
+  }
+ 
+   hr{
+    columns: rgb(52, 53, 54);
+  }
+ 
+  .card-header
+{
+  height:100px;  
+}
+  .card-footer{
+    /* height:200px; */
+    text-align: center;
+  }
+ 
+  input[type=text]{
+    border-spacing: 2px;
+    height:20px;
+  }
+ h2{
+  color:black
+ }
+ label{
+  width:300px;
+ }
+ 

@@ -1,0 +1,82 @@
+
+<div class="card" style="text-align:center">
+    <div class="col-md-1 col-sm-8 col-xs-12">
+
+      </div>
+
+  <div class="col-md-10 col-sm-8 col-xs-12">
+
+    <div class="x_panel tile fixed_height_420 overflow_hidden">
+  
+      <div class="card-header" style="text-align:center">
+        <h2>Create Bet</h2>
+        <hr>
+          <div class="clearfix"></div>
+      </div>
+  
+      <!-- <div class="card-body animate form login_form" style="text-align:center"> -->
+  
+        <div>
+     <form #createOption="ngForm" (ngSubmit)="createOption.valid && onSubmit(createOption)">
+  
+      <div class="x_content" style="text-align: center;height: 400px">
+  
+    <label for="team1"><input type="text" #team1="ngModel"  class="form-control"   [(ngModel)]="userService.selectedTeam.team1" name="team1" placeholder="Team 1"
+    required  [ngClass]="{'invalid-textbox' :createOption.submitted && !team1.valid }"></label>
+    <div *ngIf="createOption.submitted && !team1.valid">
+      <label class="validation-message">This field is required.</label>
+    </div>&nbsp;
+  
+  
+    <label for="team2"><input type="text"  class="form-control"  #team2="ngModel"  [(ngModel)]="userService.selectedTeam.team2" name="team2" placeholder="Team2"
+    required [ngClass]="{'invalid-textbox' :createOption.submitted && !team2.valid }"></label>
+    <div *ngIf="createOption.submitted && team2.errors">
+      <label class="validation-message">This field is required.</label>
+   </div>
+  <br><br>
+   <h4> <label for="account" style="color:black"><b>Select a Team </b></label></h4>
+  
+    <div >
+      &nbsp; <input type="radio" name="Selected"  value="1" id="tm1" #selectTeam="ngModel" name="selectTeam" [(ngModel)]="userService.selectedTeam.selectTeam"  [ngClass]="{'invalid-radio' :createOption.submitted && !selectTeam.valid }">Team A
+      &nbsp; &nbsp;<input type="radio" name="Selected"  value="2" id="tm2"  #selectTeam="ngModel" name="selectTeam" [(ngModel)]="userService.selectedTeam.selectTeam"  [ngClass]="{'invalid-radio' :createOption.submitted && !selectTeam.valid }">Team B
+      <div *ngIf="createOption.submitted && selectTeam.errors">
+          <label *ngIf="selectTeam.errors.required" class="validation-message">This field is required.</label>
+   
+      </div>
+    </div>
+  <br><br>
+  <label for="min"><input type="text" class="form-control" #min="ngModel"  [(ngModel)]="userService.selectedTeam.min" name="min" placeholder=" Minimum amount"
+    required [ngClass]="{'invalid-textbox' :createOption.submitted && !min.valid }"> </label>
+    <div *ngIf="createOption.submitted && min.errors">
+      <label class="validation-message">This field is required.</label>
+   </div>&nbsp;&nbsp;
+  
+   <label for="max"><input type="text" class="form-control"  #max="ngModel"  [(ngModel)]="userService.selectedTeam.max" name="max" placeholder=" Maximum amount"
+    required [ngClass]="{'invalid-textbox' :createOption.submitted && !max.valid }"></label>
+    <div *ngIf="createOption.submitted && max.errors">
+      <label class="validation-message">This field is required.</label>
+    </div>
+  
+    <br>
+  <br><BR>
+   
+    <label for="account" style="color:black"><b>Start Time:</b><input type="datetime-local" class="form-control" #starttime="ngModel"  [(ngModel)]="userService.selectedTeam.starttime" name="starttime" [ngClass]="{'invalid-textbox' :createOption.submitted && !starttime.valid }" /></label>
+    <div *ngIf="createOption.submitted && starttime.errors">
+        <label class="validation-message">This field is required.</label>
+      </div>&nbsp;&nbsp;
+   
+    <label for="account" style="color:black"><b>End Time:</b><input type="datetime-local" class="form-control" #endtime="ngModel"  [(ngModel)]="userService.selectedTeam.endtime" name="endtime" [ngClass]="{'invalid-textbox' :createOption.submitted && !endtime.valid }" /></label>
+    <div *ngIf="createOption.submitted && endtime.errors">
+        <label class="validation-message">This field is required.</label>
+      </div>
+      <br><br>
+    <input type="submit" class="btn" value="create bet">
+  
+    </div>
+   </form>
+  
+  </div>
+
+  </div>
+  </div>
+  </div>

@@ -1,0 +1,136 @@
+profile html
+<!-- <div class="row">
+    <div class="col-sm-6">
+    </div>
+    <div class="col-sm-6">
+    <table *ngIf="userDetails" class="table-fill">
+  <thead>
+      <tr>
+          <th colspan="2" class="text-center">User Profile</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>First Name</td>
+          <td>{{userDetails.fullName.split(' ')[0]}}</td>
+      </tr>
+      <tr>
+          <td>Last Name</td>
+          <td>{{userDetails.fullName.split(' ')[1]}}</td>
+      </tr>
+      <tr>
+          <td>Email</td>
+          <td>{{userDetails.email}}</td>
+      </tr>
+      <tr>
+          <td colspan="2" class="text-center">-->
+              <!-- <input type="button" (click)="onLogout()" value="Logout" />  -->
+       <!--    </td>
+      </tr>
+  </tbody>
+</table>
+<form #createOption="ngForm" (ngSubmit)="createOption.valid && onSubmit(createOption)">
+    <input type="text" #team1="ngModel" [(ngModel)]="userService.selectedTeam.team1" name="team1" placeholder="team 1"
+    required  [ngClass]="{'invalid-textbox' :createOption.submitted && !team1.valid }">
+    <div *ngIf="createOption.submitted && !team1.valid">
+      <label class="validation-message">This field is required.</label>
+    </div>
+    <input type="text" #team2="ngModel" [(ngModel)]="userService.selectedTeam.team2" name="team2" placeholder="team2"
+    required [ngClass]="{'invalid-textbox' :createOption.submitted && !team2.valid }">
+    <div *ngIf="createOption.submitted && team2.errors">
+      <label class="validation-message">This field is required.</label>
+     
+    </div>
+    <input type="text" #selectTeam="ngModel" [(ngModel)]="userService.selectedTeam.selectTeam" name="selectTeam" placeholder="Enter selected team"
+    minlength="4" required [ngClass]="{'invalid-textbox' :createOption.submitted && !selectTeam.valid }">
+    <div *ngIf="createOption.submitted && selectTeam.errors">
+      <label *ngIf="selectTeam.errors.required" class="validation-message">This field is required.</label>
+   
+    </div>
+    <input type="submit" value="store">
+  </form>
+</div>
+  </div> -->
+  
+  <html lang="en">
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+  <body>
+   <br>
+  <div class ="container-fluid">
+      <br>
+      <br>
+  <div class = "row">
+       <div class = "col-sm-5">
+      </div>
+       <div class = "col-sm-7">
+           <br>
+         <img src="/assets/img/img.jpg" alt="..." class="img-circle profile_img" width="223" height="215">
+         <br>
+      
+          <ul class="list-unstyled user_data">
+              <h4>
+                  &nbsp;&nbsp;<li><i class="glyphicon glyphicon-user">&nbsp;</i>   
+                    {{userDetails}}
+                  </li>
+                  <br>
+                  <li>
+                  <i class="glyphicon glyphicon-envelope">&nbsp;</i>{{emails}}
+                   </li>
+                   <br>
+                   <li>
+                  <i class="fa fa-key user-profile-icon"></i>&nbsp;&nbsp;{{publickey}}
+                  </li>
+                  <br>
+              </h4>
+                  <a class="btn btn-success" data-toggle="modal"  data-target="#increase" style="padding: 8px 30px" ><i class="fa fa-edit m-right-xs">&nbsp;</i>Change password</a>
+         </ul>
+      </div>
+    
+  </div>     
+  </div>
+  
+  <form action="/user/changepassword" method="POST">
+  <div class="modal fade" id="increase" role="dialog">
+      <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+               <div class="modal-header" > 
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     <h4 class="modal-title" >Change Password</h4>     
+               </div>
+               <div class="modal-body" >
+                      <!-- <input type="text" class="form-control" placeholder="Enter Email" name="emailch"  required="" /> --}}
+                     <input type="password" placeholder="old password" name="passwordold">
+                     <input type="password" placeholder="new password" name="passwordnew" >  -->
+                 
+                    <!-- <form #changepassword="ngForm" (ngSubmit)="changepassword.valid && onSubmit(changepassword)">                         -->
+                        
+                        <div class="center"> <p id="emailid">{{emails}}</p> </div>
+                         <input type="hidden" name="email" #email value="{{emails}}">
+                          <input type="password" class="form-control" name="passwordold" #passwordold placeholder="Old password" required minlength="4">&nbsp;
+                          <!-- <div *ngIf="changepassword.submitted && passwordold.errors?.minlength">
+                            <label class="validation-message">Minimum 4 characters.</label>
+                          </div> -->
+                          
+                          <input type="password" class="form-control" name="password" #password placeholder="New password" required minlength="4">&nbsp;
+                        <!-- <div *ngIf="changepassword.submitted && password.errors?.minlength">
+                          <label class="validation-message">Minimum 4 characters.</label>
+                        </div> -->
+                          <div style="text-align: center">
+                        <button   type="button"class="btn btn-default submit" (click)="change(email.value,passwordold.value,password.value)" value="change">submit</button>
+                        &nbsp;<a class="btn btn-danger"   data-dismiss="modal">cancel</a>
+                    </div>
+                    <!-- </form> -->
+              </div>
+          </div>
+      </div>
+  </div>
+  </form>
+  <br><br>   
+  </body>
+  </html>
+  

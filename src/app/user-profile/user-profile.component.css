@@ -1,0 +1,24 @@
+profile css
+.table {
+   width: 100%;
+ }
+ .table{
+   height: 230px;
+   /* overflow-y: auto; */
+   /* width: 100%; */
+ }
+h3{
+color: #73879C;
+}
+ b{
+   color: #73879C;
+ }
+
+ .scroll{
+   height: 600px;
+   overflow-y:auto;
+ }
+
+ .center{
+   text-align: center;
+ }
